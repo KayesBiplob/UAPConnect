@@ -1,0 +1,545 @@
+{% extends 'base.html' %}
+
+{% block title %} My Applications {% endblock %}
+
+{% block content %}
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  .my-applications-page {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f5f0ff 0%, #ffffff 100%);
+  }
+
+  /* Modern Navigation Bar */
+  .modern-nav {
+    background: white;
+    padding: 15px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .nav-left {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+  }
+
+  .logo {
+    font-size: 28px;
+    font-weight: 900;
+    color: #a855f7;
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 25px;
+    align-items: center;
+  }
+
+  .nav-links a {
+    color: #374151;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 15px;
+    transition: color 0.3s ease;
+    position: relative;
+  }
+
+  .nav-links a:hover {
+    color: #a855f7;
+  }
+
+  .nav-notification-badge {
+    position: absolute;
+    top: -8px;
+    right: -12px;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    color: white;
+    border-radius: 9px;
+    font-size: 10px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(239, 68, 68, 0.4);
+    animation: pulse-nav-badge 2s infinite;
+  }
+
+  @keyframes pulse-nav-badge {
+    0%, 100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+  }
+
+  .connect-box {
+    text-align: left;
+  }
+
+  .connect-box h4 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: white;
+  }
+
+  .connect-box p {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 10px;
+    line-height: 1.5;
+  }
+
+  .connect-box .social-icons {
+    margin-top: 15px;
+    gap: 15px;
+  }
+
+  .connect-box .social-icons a {
+    width: 35px;
+    height: 35px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    font-size: 18px;
+  }
+
+  .connect-box .social-icons a:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  /* Footer */
+  .modern-footer {
+    background: #7e22ce;
+    color: white;
+    padding: 40px 20px 20px;
+    margin-top: 60px;
+  }
+
+  .footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 40px;
+    margin-bottom: 30px;
+  }
+
+  .footer-section h4 {
+    font-size: 16px;
+    margin-bottom: 15px;
+    font-weight: 600;
+  }
+
+  .footer-section ul {
+    list-style: none;
+  }
+
+  .footer-section ul li {
+    margin-bottom: 10px;
+  }
+
+  .footer-section a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s ease;
+  }
+
+  .footer-section a:hover {
+    color: white;
+  }
+
+  .footer-bottom {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  .social-icons {
+    display: flex;
+    gap: 15px;
+    margin-top: 15px;
+  }
+
+  .social-icons a {
+    width: 35px;
+    height: 35px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s ease;
+  }
+
+  .social-icons a:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .search-bar {
+    display: flex;
+    align-items: center;
+    background: #f3f4f6;
+    border-radius: 8px;
+    padding: 8px 15px;
+    gap: 8px;
+  }
+
+  .search-bar input {
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: 14px;
+    width: 200px;
+  }
+
+  .btn-sign-out {
+    background: linear-gradient(135deg, #a855f7 0%, #9333ea 100%);
+    color: white;
+    padding: 10px 25px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.3s ease;
+  }
+
+  .btn-sign-out:hover {
+    background: linear-gradient(135deg, #9333ea 0%, #7e22ce 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(168, 85, 247, 0.3);
+  }
+
+  /* Content Container */
+  .applications-container {
+    max-width: 1400px;
+    margin: 40px auto;
+    padding: 0 20px;
+  }
+
+  .page-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 10px;
+  }
+
+  .page-subtitle {
+    font-size: 16px;
+    color: #6b7280;
+    margin-bottom: 30px;
+  }
+
+  /* Modern Table */
+  .modern-table-wrapper {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+  }
+
+  .modern-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .modern-table thead {
+    background: #f9fafb;
+  }
+
+  .modern-table th {
+    padding: 16px;
+    text-align: left;
+    font-size: 13px;
+    font-weight: 600;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .modern-table td {
+    padding: 20px 16px;
+    border-top: 1px solid #f3f4f6;
+    font-size: 14px;
+    color: #374151;
+  }
+
+  .modern-table tbody tr:hover {
+    background: #f9fafb;
+  }
+
+  .status-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .status-applied {
+    background: #dbeafe;
+    color: #1e40af;
+  }
+
+  .status-rejected {
+    background: #fee2e2;
+    color: #991b1b;
+  }
+
+  .status-interview {
+    background: #d1fae5;
+    color: #065f46;
+  }
+
+  .link-btn {
+    color: #a855f7;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+  }
+
+  .link-btn:hover {
+    color: #7e22ce;
+    text-decoration: underline;
+  }
+
+  .pagination-modern {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin: 40px 0;
+  }
+
+  .page-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    background: white;
+    color: #374151;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+
+  .page-btn:hover {
+    background: #a855f7;
+    color: white;
+    border-color: #a855f7;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #6b7280;
+  }
+
+  @media (max-width: 768px) {
+    .modern-nav {
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .modern-table-wrapper {
+      overflow-x: auto;
+    }
+  }
+</style>
+
+<div class="my-applications-page">
+  <!-- Modern Navigation -->
+  <nav class="modern-nav">
+    <div class="nav-left">
+      <a href="{% url 'home' %}" class="logo">UAPCONNECT</a>
+      {% if user.is_authenticated %}
+      <div class="nav-links">
+        <a href="{% url 'create_advert' %}">Create Advert</a>
+        <a href="{% url 'my_applications' %}">
+          My Applications
+          {% if new_decisions_count > 0 %}
+          <span class="nav-notification-badge">{{ new_decisions_count }}</span>
+          {% endif %}
+        </a>
+        <a href="{% url 'my_jobs' %}">
+          My Jobs
+          {% if pending_decisions_count > 0 %}
+          <span class="nav-notification-badge">{{ pending_decisions_count }}</span>
+          {% endif %}
+        </a>
+      </div>
+      {% endif %}
+    </div>
+    <div class="nav-right">
+      <form action="{% url 'search' %}" method="GET" class="search-bar">
+        <span>🔍</span>
+        <input type="text" name="keyword" placeholder="Search Job">
+      </form>
+      {% if user.is_authenticated %}
+        <a href="{% url 'logout' %}" class="btn-sign-out">Sign Out</a>
+      {% else %}
+        <a href="{% url 'login' %}" class="btn-sign-out">Sign In</a>
+      {% endif %}
+    </div>
+  </nav>
+
+  <!-- Content -->
+  <div class="applications-container">
+    <h1 class="page-title">My Applications</h1>
+    <p class="page-subtitle">Track all your job applications in one place</p>
+
+    <div class="modern-table-wrapper">
+      <table class="modern-table">
+        <thead>
+          <tr>
+            <th>Job Title</th>
+            <th>Company</th>
+            <th>Status</th>
+            <th>Applied Date</th>
+            <th>Total Applicants</th>
+            <th>Portfolio</th>
+            <th>CV</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% if my_applications %}
+          {% for application in my_applications %}
+          <tr>
+            <td>
+              <a href="{% url 'job_advert' application.job_advert.id %}" class="link-btn">
+                <strong>{{ application.job_advert.title }}</strong>
+              </a>
+            </td>
+            <td>{{ application.job_advert.company_name }}</td>
+            <td>
+              {% if application.status == 'APPLIED' %}
+              <span class="status-badge status-applied">Applied</span>
+              {% elif application.status == 'REJECTED' %}
+              <span class="status-badge status-rejected">Rejected</span>
+              {% elif application.status == 'INTERVIEW' %}
+              <span class="status-badge status-interview">Interview</span>
+              {% endif %}
+            </td>
+            <td>{{ application.created_at|date:"M d, Y" }}</td>
+            <td>{{ application.job_advert.total_applicants }}</td>
+            <td>
+              <a href="{{ application.portfolio_url }}" target="_blank" class="link-btn">View</a>
+            </td>
+            <td>
+              <a href="{{ application.cv.url }}" target="_blank" class="link-btn">Download</a>
+            </td>
+          </tr>
+          {% endfor %}
+          {% else %}
+          <tr>
+            <td colspan="7" class="empty-state">
+              <h3>No applications yet</h3>
+              <p>Start applying to jobs to see your applications here!</p>
+            </td>
+          </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    {% if my_applications.paginator.num_pages > 1 %}
+    <div class="pagination-modern">
+      {% if my_applications.has_previous %}
+        <a href="?page={{ my_applications.previous_page_number }}" class="page-btn">‹</a>
+      {% else %}
+        <span class="page-btn" style="opacity: 0.5;">‹</span>
+      {% endif %}
+
+      {% for num in my_applications.paginator.page_range %}
+        {% if num == my_applications.number %}
+          <span class="page-btn" style="background: #a855f7; color: white;">{{ num }}</span>
+        {% elif num > my_applications.number|add:'-3' and num < my_applications.number|add:'3' %}
+          <a href="?page={{ num }}" class="page-btn">{{ num }}</a>
+        {% endif %}
+      {% endfor %}
+
+      {% if my_applications.has_next %}
+        <a href="?page={{ my_applications.next_page_number }}" class="page-btn">›</a>
+      {% else %}
+        <span class="page-btn" style="opacity: 0.5;">›</span>
+      {% endif %}
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="modern-footer">
+  <div class="footer-content">
+    <div class="footer-section">
+      <h4>UAPCONNECT</h4>
+      <ul>
+        <li><a href="#">About Platform</a></li>
+        <li><a href="#">For Students</a></li>
+        <li><a href="#">For Employers</a></li>
+        <li><a href="#">Success Rate</a></li>
+      </ul>
+    </div>
+    <div class="footer-section">
+      <h4>Resources</h4>
+      <ul>
+        <li><a href="#">How to Apply</a></li>
+        <li><a href="#">CV Guidelines</a></li>
+        <li><a href="#">Interview Tips</a></li>
+        <li><a href="#">Career Advice</a></li>
+      </ul>
+    </div>
+    <div class="footer-section">
+      <h4>UAP CSE</h4>
+      <ul>
+        <li><a href="#">UAP Website</a></li>
+        <li><a href="#">UAP Development</a></li>
+        <li><a href="#">Contact Us</a></li>
+      </ul>
+    </div>
+    <div class="footer-section">
+      <div class="connect-box">
+        <h4>Connect With Us</h4>
+        <p>University of Asia Pacific</p>
+        <p>Department of CSE</p>
+        <div class="social-icons">
+          <a href="#" title="Facebook">📱</a>
+          <a href="#" title="Email">✉️</a>
+          <a href="#" title="Website">🌐</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>Copyright © 2025 UAPCONNECT - University of Asia Pacific | Software Development Course Project</p>
+  </div>
+</footer>
+
+{% endblock %}

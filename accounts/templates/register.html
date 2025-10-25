@@ -1,0 +1,241 @@
+{% extends 'base.html' %}
+
+{% block title %} | Signup {% endblock %}
+
+{% block content %}
+<style>
+  .signup-wrapper {
+    min-height: calc(100vh - 100px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #f0f9ff 0%, #ffffff 50%, #f5f0ff 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .signup-wrapper::before {
+    content: '';
+    position: absolute;
+    top: -100px;
+    right: -100px;
+    width: 300px;
+    height: 300px;
+    background: linear-gradient(135deg, #a855f7 0%, #c084fc 100%);
+    border-radius: 50%;
+    opacity: 0.3;
+  }
+
+  .signup-container {
+    display: flex;
+    max-width: 1100px;
+    width: 90%;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(168, 85, 247, 0.1);
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+  }
+
+  .signup-illustration {
+    flex: 1;
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    padding: 60px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .signup-illustration svg {
+    width: 100%;
+    max-width: 450px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+  }
+
+  .signup-illustration img {
+    width: 100%;
+    max-width: 450px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+  }
+
+  .signup-form-section {
+    flex: 1;
+    padding: 60px 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .signup-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 40px;
+    text-align: left;
+  }
+
+  .signup-form-group {
+    margin-bottom: 24px;
+  }
+
+  .signup-label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 8px;
+  }
+
+  .signup-input {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+  }
+
+  .signup-input:focus {
+    outline: none;
+    border-color: #a855f7;
+    box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.1);
+  }
+
+  .signup-button {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #a855f7 0%, #9333ea 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+  }
+
+  .signup-button:hover {
+    background: linear-gradient(135deg, #9333ea 0%, #7e22ce 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(168, 85, 247, 0.3);
+  }
+
+  .signup-links {
+    margin-top: 24px;
+    text-align: center;
+  }
+
+  .signup-links p {
+    color: #6b7280;
+    font-size: 14px;
+    margin-bottom: 12px;
+  }
+
+  .signup-links a {
+    color: #3b82f6;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+  }
+
+  .signup-links a:hover {
+    color: #2563eb;
+    text-decoration: underline;
+  }
+
+  .forgot-password-signup {
+    display: block;
+    margin-top: 8px;
+    color: #ef4444;
+    font-size: 13px;
+  }
+
+  .home-button-signup {
+    display: inline-block;
+    margin-top: 30px;
+    padding: 10px 30px;
+    border: 2px solid #a855f7;
+    color: #a855f7;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+
+  .home-button-signup:hover {
+    background: #a855f7;
+    color: white;
+  }
+
+  @media (max-width: 768px) {
+    .signup-container {
+      flex-direction: column;
+    }
+
+    .signup-illustration {
+      padding: 40px 20px;
+      min-height: 250px;
+    }
+
+    .signup-form-section {
+      padding: 40px 30px;
+    }
+
+    .signup-title {
+      font-size: 28px;
+    }
+  }
+</style>
+
+<div class="signup-wrapper">
+  <div class="signup-container">
+    <!-- Left Side - Illustration -->
+    <div class="signup-illustration">
+      {% load static %}
+      <img src="{% static 'Signup.png' %}" alt="Sign Up Illustration">
+    </div>
+
+    <div class="signup-form-section">
+      <span>
+        {% include 'alerts.html' %}
+      </span>
+      
+      <h1 class="signup-title">Signup</h1>
+      
+      <form action="{% url 'register' %}" method="POST">
+        {% csrf_token %}
+        
+        <div class="signup-form-group">
+          <label for="email" class="signup-label">Email</label>
+          <input type="email" name="email" id="email" placeholder="Email Address" class="signup-input" required>
+        </div>
+        
+        <div class="signup-form-group">
+          <label for="password" class="signup-label">Password</label>
+          <input type="password" name="password" id="password" placeholder="Password" class="signup-input" required>
+        </div>
+        
+        <button type="submit" class="signup-button">Signup</button>
+      </form>
+      
+      <div class="signup-links">
+        <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
+        <a href="{% url 'reset_password_via_email' %}" class="forgot-password-signup">Forgot Password?</a>
+      </div>
+      
+      <div style="text-align: center;">
+        <a href="{% url 'home' %}" class="home-button-signup">Home</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,232 @@
+{% extends 'base.html' %}
+
+{% block title %} | Verify Account {% endblock %}
+
+{% block content %}
+<style>
+  .verify-wrapper {
+    min-height: calc(100vh - 100px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #f5f0ff 0%, #ffffff 50%, #f0f9ff 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .verify-wrapper::before {
+    content: '';
+    position: absolute;
+    top: -100px;
+    right: -100px;
+    width: 300px;
+    height: 300px;
+    background: linear-gradient(135deg, #a855f7 0%, #c084fc 100%);
+    border-radius: 50%;
+    opacity: 0.3;
+  }
+
+  .verify-container {
+    display: flex;
+    max-width: 1100px;
+    width: 90%;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(168, 85, 247, 0.1);
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+  }
+
+  .verify-illustration {
+    flex: 1;
+    background: linear-gradient(135deg, #e0f2fe 0%, #dbeafe 100%);
+    padding: 60px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .verify-illustration svg {
+    width: 100%;
+    max-width: 350px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+  }
+
+  .verify-illustration img {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+  }
+
+  .verify-form-section {
+    flex: 1;
+    padding: 60px 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .verify-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 15px;
+    text-align: left;
+  }
+
+  .verify-subtitle {
+    font-size: 15px;
+    color: #6b7280;
+    margin-bottom: 30px;
+    line-height: 1.6;
+  }
+
+  .verify-form-group {
+    margin-bottom: 24px;
+  }
+
+  .verify-label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 8px;
+  }
+
+  .verify-input {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+  }
+
+  .verify-input:focus {
+    outline: none;
+    border-color: #a855f7;
+    box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.1);
+  }
+
+  .verify-button {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #a855f7 0%, #9333ea 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+  }
+
+  .verify-button:hover {
+    background: linear-gradient(135deg, #9333ea 0%, #7e22ce 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(168, 85, 247, 0.3);
+  }
+
+  .verify-links {
+    margin-top: 24px;
+    text-align: center;
+  }
+
+  .verify-links a {
+    color: #3b82f6;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+  }
+
+  .verify-links a:hover {
+    color: #2563eb;
+    text-decoration: underline;
+  }
+
+  .home-button-verify {
+    display: inline-block;
+    margin-top: 30px;
+    padding: 10px 30px;
+    border: 2px solid #a855f7;
+    color: #a855f7;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+
+  .home-button-verify:hover {
+    background: #a855f7;
+    color: white;
+  }
+
+  @media (max-width: 768px) {
+    .verify-container {
+      flex-direction: column;
+    }
+
+    .verify-illustration {
+      padding: 40px 20px;
+      min-height: 250px;
+    }
+
+    .verify-form-section {
+      padding: 40px 30px;
+    }
+
+    .verify-title {
+      font-size: 28px;
+    }
+  }
+</style>
+
+<div class="verify-wrapper">
+  <div class="verify-container">
+    <!-- Left Side - Illustration -->
+    <div class="verify-illustration">
+      {% load static %}
+      <img src="{% static 'ForgotPassword.png' %}" alt="Verify Account Illustration">
+    </div>
+
+    <!-- Right Side - Form -->
+    <div class="verify-form-section">
+      <span>
+        {% include 'alerts.html' %}
+      </span>
+      
+      <h1 class="verify-title">Verify Account</h1>
+      <p class="verify-subtitle">Please enter the verification code sent to your email address to complete your registration.</p>
+      
+      <form action="{% url 'verify_account' %}" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="email" value="{{ email }}">
+        
+        <div class="verify-form-group">
+          <label for="code" class="verify-label">Verification Code</label>
+          <input type="text" name="code" id="code" placeholder="Enter verification code" class="verify-input" required>
+        </div>
+        
+        <button type="submit" class="verify-button">Verify Account</button>
+      </form>
+      
+      <div class="verify-links">
+        <p><a href="{% url 'register' %}">Back to Registration</a></p>
+      </div>
+      
+      <div style="text-align: center;">
+        <a href="{% url 'home' %}" class="home-button-verify">Home</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
