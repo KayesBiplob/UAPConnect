@@ -72,11 +72,7 @@ A recruitment platform for UAP CSE students to connect with job opportunities.
 
 ## Screenshots
 
-| Login | Dashboard | My Jobs |
-|-------|-----------|---------|
-| ![Login](screenshots/login.png) | ![Dashboard](screenshots/home.png) | ![My Jobs](screenshots/myjobs.png) |
 
-## License
 
-MIT © [Your Name]
+
 
